@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url:'http://beta.freshdocz.com/api/Document/DownloadFile/',
+  endpoint:'/a7cae433-dc0d-41f8-8fba-cb067827f30c'
 };
