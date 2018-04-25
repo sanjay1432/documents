@@ -1,9 +1,39 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <a href={{imageToShow}} download>click</a>
-<video>
-    <source type = "video/mp4" src = {{imageToShow}}>
+<div class="container-fluid">
 
-</video> -->
-
-<!-- <img [src]=imageToShow> -->
-<iframe  [src]=sanitizer.bypassSecurityTrustResourceUrl(imageToShow) height="100%" width="100%"  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <h1 class="text -center"> Welcome to Document list</h1>
+  
+    <button type="button" (click)="getDocument('8d4980da-df4a-4ff7-b348-a9d92a5e450d')" class="btn btn-primary" data-toggle="modal"
+      data-target="#exampleModal">
+      open pdf
+    </button>
+    <button type="button" (click)="getDocument('e876b2df-93ba-42a0-a67d-697281383066')" class="btn btn-primary" data-toggle="modal"
+      data-target="#exampleModal">
+      open image
+    </button>
+  
+  </div>
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 100% !important;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            <p *ngIf="fileType == ''">please wait ...</p>
+            <p *ngIf="fileType == 'image/png'">IMAGE</p>
+            <p *ngIf="fileType == 'application/pdf'">PDF</p>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center" *ngIf="fileType == '' ">
+            <img src="../../assets/loader.gif">
+          </div>
+          <pdf-viewer *ngIf="fileType == 'application/pdf'" [src]="fileToShow" [render-text]="true"></pdf-viewer>
+          <img *ngIf="fileType == 'image/png'" [src]="fileToShow" />
+        </div>
+      </div>
+    </div>
+  </div>
+  
