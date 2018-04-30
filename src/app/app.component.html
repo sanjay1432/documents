@@ -1,9 +1,88 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <a href={{imageToShow}} download>click</a>
-<video>
-    <source type = "video/mp4" src = {{imageToShow}}>
+<div class="container-fluid">
 
-</video> -->
+  <h1 class="text -center"> Welcome to Document list</h1>
 
-<!-- <img [src]=imageToShow> -->
-<iframe  [src]=sanitizer.bypassSecurityTrustResourceUrl(imageToShow) height="100%" width="100%"  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <button type="button" (click)="getDocument('8d4980da-df4a-4ff7-b348-a9d92a5e450d')" class="btn btn-primary" data-toggle="modal"
+    data-target="#exampleModal">
+    open pdf
+  </button>
+  <button type="button" (click)="getDocument('e876b2df-93ba-42a0-a67d-697281383066')" class="btn btn-primary" data-toggle="modal"
+    data-target="#exampleModal">
+    open image
+  </button>
+
+  <button type="button" (click)="getURL('e876b2df-93ba-42a0-a67d-697281383066','video')" class="btn btn-primary" data-toggle="modal"
+  data-target="#exampleModal">
+  open Video
+</button>
+
+<button type="button" (click)="getURL('877d9ca5-c900-492c-b91a-8d06a26291f1','excel')" class="btn btn-primary" data-toggle="modal"
+data-target="#exampleModal">
+open Excel 
+</button>
+
+ <button type="button" (click)="getURL('2c9613cb-2acd-4ca9-a7f9-9de4fa9ed969','word')" class="btn btn-primary" data-toggle="modal"
+data-target="#exampleModal">
+open Word
+</button>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 100% !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <p *ngIf="fileType == ''">please wait ...</p>
+          <p *ngIf="fileType == 'image/png'">IMAGE</p>
+          <p *ngIf="fileType == 'application/pdf'">PDF</p>
+          <p *ngIf="fileType == 'video'">Video</p>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center" *ngIf="fileType == '' ">
+          <img src="../../assets/loader.gif">
+        </div>
+        <pdf-viewer *ngIf="fileType == 'application/pdf'" [src]="fileToShow" [render-text]="true"></pdf-viewer>
+        <img *ngIf="fileType == 'image/png'" [src]="fileToShow" />
+        <!-- Video -->
+        <div *ngIf = "fileType == 'video'">
+          <vg-player>
+            <vg-overlay-play></vg-overlay-play>
+            <vg-buffering></vg-buffering>
+            <vg-controls>
+              <vg-play-pause></vg-play-pause>
+              <vg-playback-button></vg-playback-button>
+
+              <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+              <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+              </vg-scrub-bar>
+
+              <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+              <vg-mute></vg-mute>
+              <vg-volume></vg-volume>
+
+              <vg-fullscreen></vg-fullscreen>
+            </vg-controls>
+
+            <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+              <source [src]="mediaUrl"
+                type="video/mp4">
+            </video>
+          </vg-player>
+
+        </div>
+       
+        <iframe style="height: 45vh; width:100%; display: block;"
+                  ngx-document src= 'mediaUrl'
+                  provider="google"></iframe>
+      </div>
+    </div>
+  </div>
+</div>

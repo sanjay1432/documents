@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , ViewChild} from '@angular/core';
 import { DocumentsService } from './documents.service';
 import { DomSanitizer } from '@angular/platform-browser';
 @Component({
@@ -6,30 +6,39 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  constructor( private document: DocumentsService,public sanitizer: DomSanitizer) {
-    this.getDocument()
-   }
 
- getDocument(){
-   let url = '6c3abb82-fb69-43d7-965d-3eacb2374649';
+export class AppComponent {
+  mediaUrl: string;
+  fileToShow: any;
+  fileType: string;
+  constructor( private document: DocumentsService,public sanitizer: DomSanitizer) {
+   }
+  
+ getURL(url,type){
+   console.log(url)
+   console.log(type)
+   this.fileType = type; 
+   this.mediaUrl = this.document.getURL(url)
+   console.log( this.mediaUrl)
+ }  
+ getDocument(url){
+  this.fileType = '';
   this.document.getDocuments(url).subscribe(data => {
-      console.log(data)
-      this.createImageFromBlob(data);
+      this.fileType = data.type;
+      this.createMediaFromBlob(data);
   });
  }
 
- imageToShow: any;
+ 
 
-createImageFromBlob(image: Blob) {
+ createMediaFromBlob(file: Blob) {
        let reader = new FileReader();
        reader.addEventListener("load", () => {
-         console.log(reader.result)
-          this.imageToShow = reader.result;
+          this.fileToShow = reader.result;
        }, false);
 
-       if (image) {
-          reader.readAsDataURL(image);
+       if (file) {
+          reader.readAsDataURL(file);
        }
 }
 }
